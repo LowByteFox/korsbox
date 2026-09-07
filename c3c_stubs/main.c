@@ -17,13 +17,6 @@ void exit_compiler(int exit_value)
     longjmp(on_error_jump, exit_value);
 }
 
-#ifdef __linux__
-NORETURN void segfault_handler(int signal)
-{
-	FATAL_ERROR("Segmentation Fault");
-}
-#endif
-
 static void cleanup()
 {
     memory_release();
@@ -31,7 +24,7 @@ static void cleanup()
 
 int c3c_fakemain()
 {
-    srand((unsigned int)time(NULL));
+    srand((unsigned int) time(NULL));
     compiler_exe_name = "korsbox";
 #ifdef __OpenBSD__
     // override data size constrain set up by the system */
@@ -44,9 +37,6 @@ int c3c_fakemain()
     // Set the console input and output codepage to utf8 to handle utf8 text correctly
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
-#endif
-#ifdef __linux__
-    signal(SIGSEGV, segfault_handler);
 #endif
     
     // Setjmp will allow us to add things like fuzzing with

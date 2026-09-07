@@ -11,12 +11,14 @@ int c3c_fakemain();
 static void usage();
 
 int fetch_main(int, char**);
+int cc_main(int, char**);
 
 struct command {
     const char *name;
     cmd_main main;
 } cmds[] = {
     { "fetch-sdk", fetch_main },
+    { "cc", cc_main },
     { NULL, NULL }
 };
 
@@ -24,7 +26,10 @@ int main(int argc, char **argv)
 {
     c3c_fakemain();
 
-    const char *progname = strrchr(*argv, '/') + 1;
+    const char *maybe;
+    const char *progname = *argv;
+    if ((maybe = strrchr(*argv, '/'))) progname = maybe + 1;
+
     const char *subcmd = NULL;
     if (strcmp(progname, "korsbox") != 0) {
         if (strstr(progname, "korsbox-") != progname) usage();
@@ -48,8 +53,8 @@ int main(int argc, char **argv)
 
         iter++;
     }
-    
-    return 0;
+
+    usage();
 }
 
 static void usage()
@@ -60,6 +65,7 @@ static void usage()
     struct command *iter = cmds;
     while (iter->name) {
         fputs(iter->name, stderr);
+        fputc(' ', stderr);
 
         iter++;
     }
