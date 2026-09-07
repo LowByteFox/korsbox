@@ -29,10 +29,10 @@ static void cleanup()
     memory_release();
 }
 
-int c3c_fakemain(int argc, char **argv)
+int c3c_fakemain()
 {
     srand((unsigned int)time(NULL));
-    compiler_exe_name = argv[0];
+    compiler_exe_name = "korsbox";
 #ifdef __OpenBSD__
     // override data size constrain set up by the system */
     struct rlimit l;
@@ -59,19 +59,7 @@ int c3c_fakemain(int argc, char **argv)
         return result;
     }
     
-    // Memory must be handled here
-    long long max_mem = 0;
-    for (int i = 0; i < argc; i++)
-    {
-        if (str_eq(argv[i], "--max-mem") && i < argc - 1)
-        {
-            max_mem = atoll(argv[i + 1]);
-            if (max_mem) max_mem = next_highest_power_of_2(max_mem);
-            break;
-        }
-    }
-    
-    memory_init(max_mem);
+    memory_init(0);
     
     return 0;
 }
