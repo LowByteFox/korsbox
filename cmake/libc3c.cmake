@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: LGPL-3.0-or-later
+# SPDX-License-Identifier: LGPL-3.0-only
 # Copyright (c) 2026 LowByteFox
 if(POLICY CMP0169)
   cmake_policy(SET CMP0169 OLD)
@@ -10,7 +10,7 @@ pkg_check_modules(CURL REQUIRED IMPORTED_TARGET libcurl)
 include(FetchContent)
 FetchContent_Declare(
     c3c
-    URL https://github.com/c3lang/c3c/archive/refs/heads/master.zip
+    URL https://github.com/LowByteFox/c3c/archive/refs/heads/msvc_headers.zip
 )
 
 FetchContent_GetProperties(c3c)

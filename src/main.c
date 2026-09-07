@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: LGPL-3.0-or-later
+/* SPDX-License-Identifier: LGPL-3.0-only
  * Copyright (c) 2026 LowByteFox
  */
 #include <stdio.h>
