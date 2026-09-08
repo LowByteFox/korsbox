@@ -32,8 +32,8 @@ int cxx_main(int argc, char **argv)
             return 0;
         } else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
             target = argv[i + 1];
-            argc -= i + 2;
-            argv += i + 2;
+            argv[i] = NULL;
+            argv[++i] = NULL;
             break;
         }
     }

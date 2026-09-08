@@ -6,7 +6,7 @@ project(korsbox C)
 include(cmake/libc3c.cmake)
 
 add_executable(korsbox src/main.c src/fetch.c
-    src/cc.c src/cxx.c
+    src/cc.c src/cxx.c src/env.c
     src/utils/clang.c
     src/targets/windows-x64.c
 )

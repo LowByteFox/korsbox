@@ -9,7 +9,7 @@
 static void usage();
 static void print_targets();
 
-typedef int (*tgt_main)(int argc, char **argv, bool);
+typedef int (*tgt_main)(int, char**, bool);
 
 int target_windows_x64_main(int, char**, bool);
 
@@ -32,8 +32,8 @@ int cc_main(int argc, char **argv)
             return 0;
         } else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
             target = argv[i + 1];
-            argc -= i + 2;
-            argv += i + 2;
+            argv[i] = NULL;
+            argv[++i] = NULL;
             break;
         }
     }

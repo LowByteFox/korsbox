@@ -21,7 +21,6 @@ int target_windows_x64_main(int argc, char **argv, bool is_cpp)
     vec_add(clang_args, is_cpp ? "clang++" : "clang");
     vec_add(clang_args, "--target=x86_64-pc-windows-msvc");
     vec_add(clang_args, "-fuse-ld=lld");
-    vec_add(clang_args, "-msse2");
     vec_add(clang_args, "-fms-extensions");
     vec_add(clang_args, "-fms-compatibility");
     vec_add(clang_args, "-fcolor-diagnostics");
@@ -29,7 +28,6 @@ int target_windows_x64_main(int argc, char **argv, bool is_cpp)
     vec_add(clang_args, "-Wno-ignored-attributes");
     vec_add(clang_args, "-Wno-pragma-pack");
     vec_add(clang_args, "-Wno-deprecated-declarations");
-    vec_add(clang_args, "-Wno-unused-command-line-argument");
     vec_add(clang_args, "-D_CRT_SECURE_NO_WARNINGS");
     vec_add(clang_args, "-D_CRT_NONSTDC_NO_WARNINGS");
     vec_add(clang_args, "-D_AMD64_");
@@ -51,17 +49,27 @@ int target_windows_x64_main(int argc, char **argv, bool is_cpp)
         vec_add(clang_args, file_append_path(sdk_inc_root, "cppwinrt"));
     }
 
-    vec_add(clang_args, "-Xlinker");
-    vec_add(clang_args, str_cat("/libpath:", sdk_root));
-    vec_add(clang_args, "-Xlinker");
-    vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "uwp")));
-    vec_add(clang_args, "-Xlinker");
-    vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "store")));
-    vec_add(clang_args, "-Xlinker");
-    vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "enclave")));
-
+    bool compile_only = false;
     for (int i = 0; i < argc; i++) {
+        if (!argv[i]) continue;
+
         vec_add(clang_args, argv[i]);
+
+        if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "/c") ||
+            !strcmp(argv[i], "-E") || !strcmp(argv[i], "/P") ||
+            !strcmp(argv[i], "-S") || !strcmp(argv[i], "/FA"))
+            compile_only = true;
+    }
+
+    if (!compile_only) {
+        vec_add(clang_args, "-Xlinker");
+        vec_add(clang_args, str_cat("/libpath:", sdk_root));
+        vec_add(clang_args, "-Xlinker");
+        vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "uwp")));
+        vec_add(clang_args, "-Xlinker");
+        vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "store")));
+        vec_add(clang_args, "-Xlinker");
+        vec_add(clang_args, str_cat("/libpath:", file_append_path(sdk_root, "enclave")));
     }
 
     vec_add(clang_args, NULL);

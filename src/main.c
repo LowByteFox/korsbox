@@ -13,6 +13,7 @@ static void usage();
 int fetch_main(int, char**);
 int cc_main(int, char**);
 int cxx_main(int, char**);
+int env_main(int, char**);
 
 struct command {
     const char *name;
@@ -20,7 +21,8 @@ struct command {
 } cmds[] = {
     { "fetch-sdk", fetch_main },
     { "cc", cc_main },
-    { "cxx", cxx_main },
+    { "c++", cxx_main },
+    { "env", env_main },
     { NULL, NULL }
 };
 
