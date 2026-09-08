@@ -14,6 +14,7 @@ int fetch_main(int argc, char **argv)
 {
     if (argc == 0) usage();
     BuildOptions options = { 0 };
+    options.msvc_fetch_headers = true;
 
     for (int i = 0; i < argc - 1; i++) {
         if (!strcmp(argv[i], "-a"))

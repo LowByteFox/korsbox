@@ -5,5 +5,9 @@ project(korsbox C)
 
 include(cmake/libc3c.cmake)
 
-add_executable(korsbox src/main.c src/fetch.c src/cc.c)
+add_executable(korsbox src/main.c src/fetch.c
+    src/cc.c src/cxx.c
+    src/utils/clang.c
+    src/targets/windows-x64.c
+)
 target_link_libraries(korsbox PRIVATE c3c)
