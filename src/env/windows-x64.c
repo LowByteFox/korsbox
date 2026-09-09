@@ -30,7 +30,12 @@ int env_windows_x64_main(enum env_type type, FILE *out)
                  "    elseif(CMAKE_GENERATOR MATCHES \"Unix Makefiles\")\n"
                  "        find_program(CMAKE_MAKE_PROGRAM make)\n"
                  "    endif()\n"
-                 "endif()\n"
+                 "endif()\n\n"
+    );
+
+    fprintf(out, "set(CMAKE_MSVC_RUNTIME_LIBRARY\n"
+                 "    \"MultiThreaded$<$<IN_LIST:$<TARGET_PROPERTY:MSVC_RUNTIME_LIBRARY>,MultiThreadedDLL;MultiThreadedDebugDLL>:DLL>\"\n"
+                 "CACHE STRING \"\" FORCE)\n"
     );
 
     return 0;
